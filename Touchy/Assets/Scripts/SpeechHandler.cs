@@ -7,6 +7,9 @@ using UnityEngine;
 
 public class SpeechHandler : MonoBehaviour, IMixedRealitySpeechHandler
 {
+    public Transform ObjectToPull = null;
+    public Camera RelativeToCamera = null;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -38,10 +41,35 @@ public class SpeechHandler : MonoBehaviour, IMixedRealitySpeechHandler
                 MaterialRotator.TogglePointer();
                 eventData.Use();
                 break;
+            case "pull":
+                if (ObjectToPull == null || RelativeToCamera == null )
+                {
+                    Debug.Log("Unable to pull, no object or no camera");
+                }
+                else
+                {
+                    // Get New Object World Space Location
+                    Vector3 targetLocation = RelativeToCamera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 1.0f*ObjectToPull.transform.localScale.z));
+                    ObjectToPull.transform.position = targetLocation;
+                }
+                eventData.Use();
+                break;
+            case "smaller":
+                ScaleObject(0.9f);
+                break;
+            case "larger":
+                ScaleObject(1.1f);
+                break;
             default:
                 Debug.Log($"Unrecognized keyword {eventData.Command.Keyword}");
                 break;
         }
 
+    }
+
+    public void ScaleObject(float scale)
+    {
+        if (ObjectToPull == null) return;
+        ObjectToPull.transform.localScale = (ObjectToPull.transform.localScale * scale);
     }
 }

@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Touchy.unity
+    guid: 523a2cfb479f9614abe7860fad3a91b2
   m_configObjects: {}
